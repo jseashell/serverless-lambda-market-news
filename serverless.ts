@@ -35,7 +35,7 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: [
               {
-                'Fn::GetAtt': ['MarketNewsUserPreferencesTable', 'Arn'],
+                'Fn::GetAtt': '[MarketNewsUserPreferencesTable, Arn]',
               },
             ],
           },
