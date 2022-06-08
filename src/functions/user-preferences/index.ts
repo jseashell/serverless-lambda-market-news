@@ -1,5 +1,9 @@
 import { handlerPath } from '@libs/handler-resolver';
+import { AwsFunction } from '@libs/lambda';
 import schema from './schema';
+
+const path = 'preferences';
+const cors = true;
 
 export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
@@ -7,8 +11,8 @@ export default {
     {
       http: {
         method: 'post',
-        path: 'preferences',
-        cors: true,
+        path: path,
+        cors: cors,
         request: {
           schemas: {
             'application/json': schema,
@@ -19,15 +23,22 @@ export default {
     {
       http: {
         method: 'get',
-        path: 'preferences',
-        cors: true,
+        path: path,
+        cors: cors,
+        request: {
+          parameters: {
+            querystrings: {
+              userId: true,
+            },
+          },
+        },
       },
     },
     {
       http: {
         method: 'patch',
-        path: 'preferences',
-        cors: true,
+        path: path,
+        cors: cors,
         request: {
           schemas: {
             'application/json': schema,
@@ -38,14 +49,16 @@ export default {
     {
       http: {
         method: 'delete',
-        path: 'preferences',
-        cors: true,
+        path: path,
+        cors: cors,
         request: {
-          schemas: {
-            'application/json': schema,
+          parameters: {
+            querystrings: {
+              userId: true,
+            },
           },
         },
       },
     },
   ],
-};
+} as AwsFunction;
