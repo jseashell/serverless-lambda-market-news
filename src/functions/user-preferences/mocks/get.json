@@ -1,7 +1,6 @@
 {
   "httpMethod": "GET",
-  "headers": {
-    "Content-Type": "application/json"
-  },
-  "queryStringParameters": "{\"userId\":\"example-userid-000\"}"
+  "queryStringParameters": {
+    "userId": "example-userid-000"
+  }
 }
