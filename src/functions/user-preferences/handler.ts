@@ -42,7 +42,11 @@ async function handlePost(event) {
 
   const command = new PutItemCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
-    Item: event.body,
+    Item: {
+      userId: { S: event.body.userId },
+      stocks: { SS: event.body.stocks },
+      coins: { SS: event.body.coins },
+    },
   });
 
   const client = new DynamoDBClient({ region: process.env.AWS_REGION });
@@ -111,10 +115,10 @@ async function handlePatch(event) {
     },
     ExpressionAttributeValues: {
       ':s': {
-        S: JSON.stringify(event.body.stocks),
+        SS: event.body.stocks,
       },
       ':c': {
-        S: JSON.stringify(event.body.coins),
+        SS: event.body.coins,
       },
     },
   });
