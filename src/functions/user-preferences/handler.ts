@@ -44,10 +44,10 @@ async function handlePost(event) {
         S: event.body.userId,
       },
       stocks: {
-        SS: event.body.stocks,
+        S: JSON.stringify(event.body.stocks),
       },
       coins: {
-        SS: event.body.coins,
+        S: JSON.stringify(event.body.coins),
       },
     },
   };

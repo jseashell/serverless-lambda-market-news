@@ -1,0 +1,7 @@
+{
+  "httpMethod": "PATCH",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"userId\":\"example-userid-000\",\"stocks\": [{\"symbol\":\"AAPL\"}],\"coins\": [{\"symbol\":\"BINANCE:BTCUSDT\"}]}"
+}

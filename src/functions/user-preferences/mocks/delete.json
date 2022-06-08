@@ -1,0 +1,7 @@
+{
+  "httpMethod": "DELETE",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"userId\":\"example-userid-000\"}"
+}

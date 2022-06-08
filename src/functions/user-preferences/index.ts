@@ -25,18 +25,6 @@ export default {
     },
     {
       http: {
-        method: 'put',
-        path: 'preferences',
-        cors: true,
-        request: {
-          schemas: {
-            'application/json': schema,
-          },
-        },
-      },
-    },
-    {
-      http: {
         method: 'patch',
         path: 'preferences',
         cors: true,
