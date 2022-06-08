@@ -43,9 +43,15 @@ async function handlePost(event) {
   const command = new PutItemCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Item: {
-      userId: { S: event.body.userId },
-      stocks: { SS: event.body.stocks },
-      coins: { SS: event.body.coins },
+      userId: {
+        S: event.body.userId,
+      },
+      stocks: {
+        L: event.body.stocks,
+      },
+      coins: {
+        L: event.body.coins,
+      },
     },
   });
 
@@ -111,10 +117,10 @@ async function handlePatch(event) {
     UpdateExpression: 'set stocks = :s, coins = :c',
     ExpressionAttributeValues: {
       ':s': {
-        SS: event.body.stocks,
+        L: event.body.stocks,
       },
       ':c': {
-        SS: event.body.coins,
+        L: event.body.coins,
       },
     },
   });
