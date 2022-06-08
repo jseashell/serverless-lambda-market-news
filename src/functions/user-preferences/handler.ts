@@ -56,6 +56,7 @@ async function handlePost(event) {
       });
     })
     .catch((error) => {
+      console.error('PutItem', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
@@ -86,6 +87,7 @@ async function handleGet(event) {
       });
     })
     .catch((error) => {
+      console.error('GetItem', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
@@ -118,6 +120,7 @@ async function handlePatch(event) {
       });
     })
     .catch((error) => {
+      console.error('UpdateItem', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
@@ -147,6 +150,7 @@ async function handleDelete(event) {
       });
     })
     .catch((error) => {
+      console.error('DeleteItem', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
