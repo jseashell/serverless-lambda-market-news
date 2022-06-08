@@ -4,6 +4,7 @@ import type { AWS } from '@serverless/typescript';
 const serverlessConfiguration: AWS = {
   service: 'market-news-api',
   frameworkVersion: '3',
+  useDotenv: true,
   plugins: ['serverless-esbuild'],
   provider: {
     name: 'aws',
@@ -15,6 +16,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      USER_PREFERENCES_TABLE: process.env.USER_PREFERENCES_TABLE,
     },
     logs: {
       frameworkLambda: true,
