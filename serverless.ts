@@ -52,6 +52,8 @@ const serverlessConfiguration: AWS = {
       MarketNewsUserPreferencesTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
+          TableName:
+            'MarketNewsUserPreferences-${opt:stage, self:provider.stage}',
           BillingMode: 'PAY_PER_REQUEST',
           AttributeDefinitions: [
             {
