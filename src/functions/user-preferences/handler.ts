@@ -108,11 +108,7 @@ async function handlePatch(event) {
     Key: {
       userId: event.body.userId,
     },
-    UpdateExpression: 'set #s = :s, #c = :c',
-    ExpressionAttributeNames: {
-      '#c': 'stocks',
-      '#s': 'coins',
-    },
+    UpdateExpression: 'set stocks = :s, coins = :c',
     ExpressionAttributeValues: {
       ':s': {
         SS: event.body.stocks,
