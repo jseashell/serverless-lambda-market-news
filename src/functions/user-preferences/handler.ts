@@ -6,6 +6,7 @@ import {
   GetItemCommandOutput,
   PutItemCommand,
   PutItemCommandOutput,
+  UpdateItemCommand,
 } from '@aws-sdk/client-dynamodb';
 import {
   formatJSONResponse,
@@ -22,6 +23,8 @@ const userPreferences: ValidatedEventAPIGatewayProxyEvent<
       return handlePost(event);
     case 'GET':
       return handleGet(event);
+    case 'PATCH':
+      return handlePatch(event);
     case 'DELETE':
       return handleDelete(event);
     default:
@@ -89,6 +92,38 @@ async function handleGet(event) {
       return formatJSONResponse({
         message: 'Success',
         preferences: output.Item || {},
+      });
+    })
+    .catch((error) => {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Error', ...error }),
+      };
+    });
+}
+
+async function handlePatch(event) {
+  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+
+  const params = {
+    TableName: process.env.USER_PREFERENCES_TABLE,
+    Key: {
+      userId: event.body.userId,
+    },
+    UpdateExpression: 'set stocks = :s, coins = :c',
+    ExpressionAttributes: {
+      ':s': JSON.stringify(event.body.stocks),
+      ':c': JSON.stringify(event.body.coins),
+    },
+  };
+
+  const command = new UpdateItemCommand(params);
+
+  return client
+    .send(command)
+    .then((_output: DeleteItemCommandOutput) => {
+      return formatJSONResponse({
+        message: 'Success',
       });
     })
     .catch((error) => {
