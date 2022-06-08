@@ -42,26 +42,17 @@ async function handlePost(event) {
 
   const params = {
     TableName: process.env.USER_PREFERENCES_TABLE,
-    Item: {
-      userId: {
-        S: event.body.userId,
-      },
-      stocks: {
-        S: JSON.stringify(event.body.stocks),
-      },
-      coins: {
-        S: JSON.stringify(event.body.coins),
-      },
-    },
+    Item: event.body,
   };
 
   const command = new PutItemCommand(params);
 
   return client
     .send(command)
-    .then((_output: PutItemCommandOutput) => {
+    .then((output: PutItemCommandOutput) => {
       return formatJSONResponse({
         message: 'Success',
+        data: output.Attributes,
       });
     })
     .catch((error) => {

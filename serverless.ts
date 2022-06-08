@@ -51,14 +51,6 @@ const serverlessConfiguration: AWS = {
               AttributeName: 'userId',
               AttributeType: 'S',
             },
-            {
-              AttributeName: 'stocks',
-              AttributeType: 'S',
-            },
-            {
-              AttributeName: 'coins',
-              AttributeType: 'S',
-            },
           ],
           KeySchema: [
             {
