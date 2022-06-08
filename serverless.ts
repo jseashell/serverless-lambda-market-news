@@ -60,10 +60,12 @@ const serverlessConfiguration: AWS = {
               AttributeType: 'SS',
             },
           ],
-          KeySchema: {
-            AttributeName: 'userId',
-            KeyType: 'HASH',
-          },
+          KeySchema: [
+            {
+              AttributeName: 'userId',
+              KeyType: 'HASH',
+            },
+          ],
         },
       },
     },
