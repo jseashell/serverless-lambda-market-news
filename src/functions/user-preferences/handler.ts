@@ -38,15 +38,14 @@ const userPreferences: ValidatedEventAPIGatewayProxyEvent<
 export const main = middyfy(userPreferences);
 
 async function handlePost(event) {
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+  console.debug('POST', { type: typeof event.body, body: event.body });
 
-  const params = {
+  const command = new PutItemCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Item: event.body,
-  };
+  });
 
-  const command = new PutItemCommand(params);
-
+  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
   return client
     .send(command)
     .then((output: PutItemCommandOutput) => {
@@ -65,19 +64,21 @@ async function handlePost(event) {
 }
 
 async function handleGet(event) {
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+  console.debug('GET', {
+    type: typeof event.queryStringParameters,
+    queryStringParameters: event.queryStringParameters,
+  });
 
-  const params = {
+  const command = new GetItemCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
       userId: {
         S: event.queryStringParameters.userId,
       },
     },
-  };
+  });
 
-  const command = new GetItemCommand(params);
-
+  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
   return client
     .send(command)
     .then((output: GetItemCommandOutput) => {
@@ -96,21 +97,29 @@ async function handleGet(event) {
 }
 
 async function handlePatch(event) {
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+  console.debug('POST', { type: typeof event.body, body: event.body });
 
-  const params = {
+  const command = new UpdateItemCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
       userId: event.body.userId,
     },
-    UpdateExpression: 'set stocks = :s, coins = :c',
-    ExpressionAttributes: {
-      ':s': JSON.stringify(event.body.stocks),
-      ':c': JSON.stringify(event.body.coins),
+    UpdateExpression: 'set #s = :s, #c = :c',
+    ExpressionAttributeNames: {
+      '#c': 'stocks',
+      '#s': 'coins',
     },
-  };
+    ExpressionAttributeValues: {
+      ':s': {
+        S: JSON.stringify(event.body.stocks),
+      },
+      ':c': {
+        S: JSON.stringify(event.body.coins),
+      },
+    },
+  });
 
-  const command = new UpdateItemCommand(params);
+  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 
   return client
     .send(command)
@@ -129,19 +138,21 @@ async function handlePatch(event) {
 }
 
 async function handleDelete(event) {
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+  console.debug('GET', {
+    type: typeof event.queryStringParameters,
+    queryStringParameters: event.queryStringParameters,
+  });
 
-  const params = {
+  const command = new DeleteItemCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
       userId: {
         S: event.queryStringParameters.userId,
       },
     },
-  };
+  });
 
-  const command = new DeleteItemCommand(params);
-
+  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
   return client
     .send(command)
     .then((_output: DeleteItemCommandOutput) => {
