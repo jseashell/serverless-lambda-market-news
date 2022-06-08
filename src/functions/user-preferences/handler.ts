@@ -1,13 +1,15 @@
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
-  DeleteItemCommand,
-  DeleteItemCommandOutput,
-  DynamoDBClient,
-  GetItemCommand,
-  GetItemCommandOutput,
-  PutItemCommand,
-  PutItemCommandOutput,
-  UpdateItemCommand,
-} from '@aws-sdk/client-dynamodb';
+  DeleteCommand,
+  DeleteCommandOutput,
+  DynamoDBDocument,
+  GetCommand,
+  GetCommandOutput,
+  PutCommand,
+  PutCommandOutput,
+  UpdateCommand,
+  UpdateCommandOutput,
+} from '@aws-sdk/lib-dynamodb';
 import {
   formatJSONResponse,
   ValidatedEventAPIGatewayProxyEvent,
@@ -40,32 +42,23 @@ export const main = middyfy(userPreferences);
 async function handlePost(event) {
   console.debug('POST', { type: typeof event.body, body: event.body });
 
-  const command = new PutItemCommand({
+  const command = new PutCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
-    Item: {
-      userId: {
-        S: event.body.userId,
-      },
-      stocks: {
-        L: event.body.stocks,
-      },
-      coins: {
-        L: event.body.coins,
-      },
-    },
+    Item: event.body,
   });
 
   const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-  return client
+  const document = DynamoDBDocument.from(client);
+  return document
     .send(command)
-    .then((output: PutItemCommandOutput) => {
+    .then((output: PutCommandOutput) => {
       return formatJSONResponse({
         message: 'Success',
         data: output.Attributes,
       });
     })
     .catch((error) => {
-      console.error('PutItem', error);
+      console.error('PutCommand', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
@@ -79,26 +72,25 @@ async function handleGet(event) {
     queryStringParameters: event.queryStringParameters,
   });
 
-  const command = new GetItemCommand({
+  const command = new GetCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
-      userId: {
-        S: event.queryStringParameters.userId,
-      },
+      userId: event.queryStringParameters.userId,
     },
   });
 
   const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-  return client
+  const document = DynamoDBDocument.from(client);
+  return document
     .send(command)
-    .then((output: GetItemCommandOutput) => {
+    .then((output: GetCommandOutput) => {
       return formatJSONResponse({
         message: 'Success',
         preferences: output.Item || {},
       });
     })
     .catch((error) => {
-      console.error('GetItem', error);
+      console.error('GetCommand', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
@@ -109,33 +101,29 @@ async function handleGet(event) {
 async function handlePatch(event) {
   console.debug('POST', { type: typeof event.body, body: event.body });
 
-  const command = new UpdateItemCommand({
+  const command = new UpdateCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
       userId: event.body.userId,
     },
     UpdateExpression: 'set stocks = :s, coins = :c',
     ExpressionAttributeValues: {
-      ':s': {
-        L: event.body.stocks,
-      },
-      ':c': {
-        L: event.body.coins,
-      },
+      ':s': event.body.stocks,
+      ':c': event.body.coins,
     },
   });
 
   const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-
-  return client
+  const document = DynamoDBDocument.from(client);
+  return document
     .send(command)
-    .then((_output: DeleteItemCommandOutput) => {
+    .then((_output: UpdateCommandOutput) => {
       return formatJSONResponse({
         message: 'Success',
       });
     })
     .catch((error) => {
-      console.error('UpdateItem', error);
+      console.error('UpdateCommand', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
@@ -149,25 +137,24 @@ async function handleDelete(event) {
     queryStringParameters: event.queryStringParameters,
   });
 
-  const command = new DeleteItemCommand({
+  const command = new DeleteCommand({
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
-      userId: {
-        S: event.queryStringParameters.userId,
-      },
+      userId: event.queryStringParameters.userId,
     },
   });
 
   const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-  return client
+  const document = DynamoDBDocument.from(client);
+  return document
     .send(command)
-    .then((_output: DeleteItemCommandOutput) => {
+    .then((_output: DeleteCommandOutput) => {
       return formatJSONResponse({
         message: 'Success',
       });
     })
     .catch((error) => {
-      console.error('DeleteItem', error);
+      console.error('DeleteCommand', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ message: 'Error', ...error }),
