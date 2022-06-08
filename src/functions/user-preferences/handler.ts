@@ -70,7 +70,7 @@ async function handleGet(event) {
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
       userId: {
-        S: event.body.userId,
+        S: event.queryStringParameters.userId,
       },
     },
   };
@@ -132,7 +132,7 @@ async function handleDelete(event) {
     TableName: process.env.USER_PREFERENCES_TABLE,
     Key: {
       userId: {
-        S: event.body.userId,
+        S: event.queryStringParameters.userId,
       },
     },
   };
