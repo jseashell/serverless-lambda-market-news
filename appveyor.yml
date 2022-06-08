@@ -17,7 +17,6 @@ environment:
   CODECOV_TOKEN:
     secure: FmqEfCU7TAhcdyDsRdOmv811QvAK0ttwRPyUrxM4U8nyKS99tZ9EEO4kbROTGuqx
   SHOULD_DEPLOY: false
-  USER_PREFERENCES_TABLE: MarketNewsUserPreferencesTable
 
 for:
   - branches:
