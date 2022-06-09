@@ -37,17 +37,20 @@ install:
       nvm use $(cat .nvmrc)
       npm install --quiet 
       npx serverless --version
-  # TODO Add unit tests and enable Codecov
-  # - sh: |
-  #     curl -Os https://uploader.codecov.io/latest/linux/codecov
-  #     chmod +x codecov
+  - sh: |
+      if [ "$SHOULD_DEPLOY" = "true" ]; then
+        curl -Os https://uploader.codecov.io/latest/linux/codecov
+        chmod +x codecov
+      fi
 
 build_script:
-  - sh: npx snyk monitor
-  # TODO Add unit tests and enable Codecov
-  # - sh: |
-  #     npm run test
-  #     ./codecov
+  - sh: |
+      npx snyk monitor
+      npm run test
+  - sh: |
+      if [ "$SHOULD_DEPLOY" = "true" ]; then
+        ./codecov
+      fi
 
 deploy_script:
   - sh: |

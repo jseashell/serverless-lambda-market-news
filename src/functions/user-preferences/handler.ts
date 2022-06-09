@@ -2,7 +2,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DeleteCommand,
   DeleteCommandOutput,
-  DynamoDBDocument,
+  DynamoDBDocumentClient,
   GetCommand,
   GetCommandOutput,
   PutCommand,
@@ -47,9 +47,9 @@ async function handlePost(event) {
     Item: event.body,
   });
 
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-  const document = DynamoDBDocument.from(client);
-  return document
+  const dynamodb = new DynamoDBClient({ region: process.env.AWS_REGION });
+  const ddb = DynamoDBDocumentClient.from(dynamodb);
+  return ddb
     .send(command)
     .then((output: PutCommandOutput) => {
       return formatJSONResponse({
@@ -79,9 +79,9 @@ async function handleGet(event) {
     },
   });
 
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-  const document = DynamoDBDocument.from(client);
-  return document
+  const dynamodb = new DynamoDBClient({ region: process.env.AWS_REGION });
+  const ddb = DynamoDBDocumentClient.from(dynamodb);
+  return ddb
     .send(command)
     .then((output: GetCommandOutput) => {
       return formatJSONResponse({
@@ -113,9 +113,9 @@ async function handlePatch(event) {
     },
   });
 
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-  const document = DynamoDBDocument.from(client);
-  return document
+  const dynamodb = new DynamoDBClient({ region: process.env.AWS_REGION });
+  const ddb = DynamoDBDocumentClient.from(dynamodb);
+  return ddb
     .send(command)
     .then((_output: UpdateCommandOutput) => {
       return formatJSONResponse({
@@ -144,9 +144,9 @@ async function handleDelete(event) {
     },
   });
 
-  const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-  const document = DynamoDBDocument.from(client);
-  return document
+  const dynamodb = new DynamoDBClient({ region: process.env.AWS_REGION });
+  const ddb = DynamoDBDocumentClient.from(dynamodb);
+  return ddb
     .send(command)
     .then((_output: DeleteCommandOutput) => {
       return formatJSONResponse({
