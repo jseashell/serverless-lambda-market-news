@@ -5,7 +5,7 @@ const { compilerOptions } = require('./tsconfig.paths.json');
 module.exports = {
   preset: 'ts-jest',
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/{!(index|schema),}.ts'],
+  collectCoverageFrom: ['src/**/{!(index|schema|handler-resolver),}.ts'],
   coverageReporters: ['lcov', 'text-summary'],
   coverageDirectory: 'coverage',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
