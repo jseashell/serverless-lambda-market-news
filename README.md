@@ -30,37 +30,52 @@ npm install
 
 ## Usage
 
-> TODO
+Once [deployed remotely](#remote), you can use the various mocks to execute CRUD operations via API
+
+`npx serverless invoke -f userPreferences -p src/functions/user-preferences/mocks/post.json`
+
+The available mocks are
+
+- [`post.json`](./src/functions/user-preferences/mocks/post.json)
+- [`get.json`](./src/functions/user-preferences/mocks/get.json)
+- [`patch.json`](./src/functions/user-preferences/mocks/patch.json)
+- [`delete.json`](./src/functions/user-preferences/mocks/delete.json)
+
+Alternatively, use `curl` with the `<aws-endpoint>` output from `npx serverless deploy`
+
+```sh
+curl -X POST \
+-H 'Content-Type: application/json' \
+-d '{"userId":"example-id","stocks":[{"symbol":"AAPL"}],"coins":[{"symbol":"BINANCE:BTCUSDT"}]}'
+--location <aws-endpoint>
+```
 
 ## Test
 
 ```sh
-# Run unit tests
+# Run unit tests, watch available
 npm test
+npm run test:watch
 
 # Run security tests
 npm run snyk
 ```
 
-## Environment
-
-Environment variables are injected into the handler via [serverless.yml](./serverless.yml) config.
-
 ## Deploy
-
-This API is configured to deploy to AWS.
 
 ### Local
 
-Deployment requires `aws configure` on the deployment workstation
+Deployment from a local workstation with Serverless Framework requires `aws configure`. This allows Serverless Framework to use your local AWS credentials to deploy to your account.
 
 ```sh
 npx serverless deploy
 ```
 
+Environment variables are kept in ['.env'](./env.example).
+
 ### Remote
 
-CI/CD is serviced by [AppVeyor](https://appveyor.com/). Configuration, such as AWS IAM credentials, is kept in [appveyor.yml](./appveyor.yml). Only the `dev` and `main` branches are deployed.
+CI/CD is serviced by [AppVeyor](https://appveyor.com/). Configuration, such as environment variables and AWS CloudFormation configuration, is kept in [appveyor.yml](./appveyor.yml). Only the `dev` and `main` branches are deployed.
 
 ## License
 

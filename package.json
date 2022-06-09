@@ -5,7 +5,8 @@
   "main": "serverless.ts",
   "license": "MIT",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:watch": "jest --onlyChanged --coverage"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.105.0",

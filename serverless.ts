@@ -4,6 +4,7 @@ import type { AWS } from '@serverless/typescript';
 const serverlessConfiguration: AWS = {
   service: 'market-news-api',
   frameworkVersion: '3',
+  useDotenv: true,
   plugins: ['serverless-esbuild'],
   provider: {
     name: 'aws',
@@ -16,7 +17,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      USER_PREFERENCES_TABLE: `MarketNewsUserPreferences-${process.env.STAGE}`,
+      USER_PREFERENCES_TABLE: process.env.USER_PREFERENCES_TABLE,
     },
     logs: {
       frameworkLambda: true,
@@ -51,7 +52,7 @@ const serverlessConfiguration: AWS = {
       MarketNewsUserPreferencesTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
-          TableName: `MarketNewsUserPreferences-${process.env.STAGE}`,
+          TableName: process.env.USER_PREFERENCES_TABLE,
           BillingMode: 'PAY_PER_REQUEST',
           AttributeDefinitions: [
             {
