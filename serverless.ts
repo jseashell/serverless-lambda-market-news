@@ -16,8 +16,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      USER_PREFERENCES_TABLE:
-        '${self:resources.Resources.MarketNewsUserPreferencesTable.Properties.TableName}',
+      USER_PREFERENCES_TABLE: `MarketNewsUserPreferences-${process.env.STAGE}`,
     },
     logs: {
       frameworkLambda: true,
@@ -52,8 +51,7 @@ const serverlessConfiguration: AWS = {
       MarketNewsUserPreferencesTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
-          TableName:
-            'MarketNewsUserPreferences-${opt:stage, self:provider.stage}',
+          TableName: `MarketNewsUserPreferences-${process.env.STAGE}`,
           BillingMode: 'PAY_PER_REQUEST',
           AttributeDefinitions: [
             {
