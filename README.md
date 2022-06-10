@@ -20,7 +20,7 @@ Serverless resource API for [Market News](https://github.com/jseashell/market-ne
 
 ## Install
 
-> Requires Node >=16 (lts/gallium). If you are using [nvm](https://github.com/nvm-sh/nvm), then run `nvm install` from the project directoy
+> Requires Node >=16 (lts/gallium). If you are using [nvm](https://github.com/nvm-sh/nvm), you can run `nvm install` from the project root.
 
 ```sh
 git clone https://github.com/jseashell/market-news-api.git
@@ -34,7 +34,9 @@ npm install
 
 This function has no prerequisites. You can use mocks to get OHLCV data for a given symbol.
 
-`npx serverless invoke local -f candles -p src/functions/candless/mocks/get.json`
+```sh
+npx serverless invoke local -f candles -p src/functions/candless/mocks/get.json
+```
 
 The available mocks are
 
@@ -57,7 +59,9 @@ This function requires an active DynamoDB instance. You can use mocks to execute
 
 > _Important! Inject the name of the user preferences DynamoDB table via [`.env`](./.env.example)_
 
-`npx serverless invoke local -f userPreferences -p src/functions/user-preferences/mocks/post.json`
+```sh
+npx serverless invoke local -f userPreferences -p src/functions/user-preferences/mocks/post.json
+```
 
 The available mocks are
 
