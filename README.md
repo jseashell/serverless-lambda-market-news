@@ -10,7 +10,7 @@ Serverless resource API for [Market News](https://github.com/jseashell/market-ne
 <summary>Table of Contents</summary>
 
 - [Install](#install)
-- [Usage](#usage)
+- [Functions](#functions)
 - [Test](#test)
 - [Environment](#environment)
 - [Deploy](#deploy)
@@ -28,11 +28,36 @@ cd market-news-api
 npm install
 ```
 
-## Usage
+## Functions
 
-Once [deployed remotely](#remote), you can use the various mocks to execute CRUD operations via API
+### `candles`
 
-`npx serverless invoke -f userPreferences -p src/functions/user-preferences/mocks/post.json`
+This function has no prerequisites. You can use mocks to get OHLCV data for a given symbol.
+
+`npx serverless invoke local -f candles -p src/functions/candless/mocks/get.json`
+
+The available mocks are
+
+- [`get.json`](./src/functions/user-preferences/mocks/get.json)
+
+To test remote deployments, use `curl` with the `<aws-endpoint>` output from `npx serverless deploy`
+
+```sh
+curl -X GET -G \
+-d 'symbol=AAPL' \
+-d 'resolution=15' \
+-d 'from=1654866000' \
+-d 'to=1654891200' \
+--location <aws-endpoint>
+```
+
+### `userPreferences`
+
+This function requires an active DynamoDB instance. You can use mocks to execute CRUD operations via API.
+
+> _Important! Inject the name of the user preferences DynamoDB table via [`.env`](./.env.example)_
+
+`npx serverless invoke local -f userPreferences -p src/functions/user-preferences/mocks/post.json`
 
 The available mocks are
 
@@ -41,7 +66,7 @@ The available mocks are
 - [`patch.json`](./src/functions/user-preferences/mocks/patch.json)
 - [`delete.json`](./src/functions/user-preferences/mocks/delete.json)
 
-Alternatively, use `curl` with the `<aws-endpoint>` output from `npx serverless deploy`
+To test remote deployments, use `curl` with the `<aws-endpoint>` output from `npx serverless deploy`
 
 ```sh
 curl -X POST \

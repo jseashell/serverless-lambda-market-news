@@ -1,0 +1,9 @@
+{
+  "httpMethod": "GET",
+  "queryStringParameters": {
+    "symbol": "AAPL",
+    "resolution": "15",
+    "from": "1654866000",
+    "to": "1654891200"
+  }
+}

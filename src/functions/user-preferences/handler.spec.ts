@@ -12,6 +12,19 @@ describe('userPreferences', () => {
     console.error = jest.fn();
   });
 
+  it('should return statusCode 500 for an unhandled http method', async () => {
+    const mockEvent = {
+      httpMethod: 'NOT-REAL',
+    };
+
+    const response = await main(mockEvent, mockContext);
+
+    expect(response).toStrictEqual({
+      statusCode: 500,
+      body: `${mockEvent.httpMethod} is not being handled!`,
+    });
+  });
+
   describe('handlePost', () => {
     const mockPostEvent = {
       httpMethod: 'POST',

@@ -1,4 +1,4 @@
-import userPreferences from '@functions/user-preferences';
+import { candles, userPreferences } from '@functions';
 import type { AWS } from '@serverless/typescript';
 
 const serverlessConfiguration: AWS = {
@@ -18,6 +18,7 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       USER_PREFERENCES_TABLE: process.env.USER_PREFERENCES_TABLE,
+      FINNHUB_TOKEN: process.env.FINNHUB_TOKEN,
     },
     logs: {
       frameworkLambda: true,
@@ -40,7 +41,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { userPreferences },
+  functions: { candles, userPreferences },
   package: { individually: true },
   resources: {
     Resources: {

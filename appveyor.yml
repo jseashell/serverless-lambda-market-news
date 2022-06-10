@@ -17,6 +17,8 @@ environment:
   CODECOV_TOKEN:
     secure: if5PxDVYlpTsVImmVuYZSPdZQQV1U+bGAbCh/td7xBW8OhxWQMHW4SRklplHuxgl
   SHOULD_DEPLOY: false
+  FINNHUB_TOKEN:
+    secure: ukfs6y11ugjyliZzgcBrr0+t9XYjD1jHYOs8oysdlVE=
 
 for:
   - branches:
