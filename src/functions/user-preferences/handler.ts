@@ -10,16 +10,11 @@ import {
   UpdateCommand,
   UpdateCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
-import {
-  formatJSONResponse,
-  ValidatedEventAPIGatewayProxyEvent,
-} from '@libs/api-gateway';
+import { formatJsonResponse, ValidatedEventApiGatewayProxyEvent } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import schema from './schema';
 
-const userPreferences: ValidatedEventAPIGatewayProxyEvent<
-  typeof schema
-> = async (event) => {
+const userPreferences: ValidatedEventApiGatewayProxyEvent<typeof schema> = async (event) => {
   switch (event.httpMethod) {
     case 'POST':
       return handlePost(event);
@@ -52,7 +47,7 @@ async function handlePost(event) {
   return ddb
     .send(command)
     .then((output: PutCommandOutput) => {
-      return formatJSONResponse({
+      return formatJsonResponse({
         message: 'Success',
         data: output.Attributes,
       });
@@ -84,7 +79,7 @@ async function handleGet(event) {
   return ddb
     .send(command)
     .then((output: GetCommandOutput) => {
-      return formatJSONResponse({
+      return formatJsonResponse({
         message: 'Success',
         preferences: output.Item || {},
       });
@@ -118,7 +113,7 @@ async function handlePatch(event) {
   return ddb
     .send(command)
     .then((_output: UpdateCommandOutput) => {
-      return formatJSONResponse({
+      return formatJsonResponse({
         message: 'Success',
       });
     })
@@ -149,7 +144,7 @@ async function handleDelete(event) {
   return ddb
     .send(command)
     .then((_output: DeleteCommandOutput) => {
-      return formatJSONResponse({
+      return formatJsonResponse({
         message: 'Success',
       });
     })

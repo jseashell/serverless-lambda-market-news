@@ -45,10 +45,11 @@ install:
 
 build_script:
   - sh: |
-      npx snyk monitor
+      npm run lint
       npm run test
   - sh: |
       if [ "$SHOULD_DEPLOY" = "true" ]; then
+        npx snyk monitor
         ./codecov
       fi
 

@@ -28,12 +28,7 @@ const serverlessConfiguration: AWS = {
         statements: [
           {
             Effect: 'Allow',
-            Action: [
-              'dynamodb:PutItem',
-              'dynamodb:GetItem',
-              'dynamodb:UpdateItem',
-              'dynamodb:DeleteItem',
-            ],
+            Action: ['dynamodb:PutItem', 'dynamodb:GetItem', 'dynamodb:UpdateItem', 'dynamodb:DeleteItem'],
             Resource: [
               {
                 'Fn::GetAtt': ['MarketNewsUserPreferencesTable', 'Arn'],

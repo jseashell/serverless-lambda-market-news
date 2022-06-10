@@ -11,6 +11,7 @@ module.exports = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>',
   }),
+  setupFiles: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'node',
   testPathIgnorePatterns: ['node_modules'],
 };
