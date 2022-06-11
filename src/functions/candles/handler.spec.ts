@@ -32,10 +32,12 @@ describe('candles', () => {
 
     const response = await main(mockEvent, mockContext);
 
-    expect(response).toStrictEqual({
-      statusCode: 200,
-      body: JSON.stringify({ data: mockData }),
-    });
+    expect(response).toEqual(
+      expect.objectContaining({
+        statusCode: 200,
+        body: JSON.stringify({ data: mockData }),
+      })
+    );
   });
 
   it('should log errors and return statusCode 500', async () => {
@@ -65,10 +67,12 @@ describe('candles', () => {
     const response = await main(invalidResolutionEvent, mockContext);
 
     expect(get).not.toHaveBeenCalled();
-    expect(response).toStrictEqual({
-      statusCode: 400,
-      body: `Invalid resolution ${invalidResolution}. Valid values are [${supportedResolutions.join(',')}]`,
-    });
+    expect(response).toEqual(
+      expect.objectContaining({
+        statusCode: 400,
+        body: `Invalid resolution ${invalidResolution}. Valid values are [${supportedResolutions.join(',')}]`,
+      })
+    );
   });
 });
 

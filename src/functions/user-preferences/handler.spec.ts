@@ -19,10 +19,12 @@ describe('userPreferences', () => {
 
     const response = await main(mockEvent, mockContext);
 
-    expect(response).toStrictEqual({
-      statusCode: 500,
-      body: `${mockEvent.httpMethod} is not being handled!`,
-    });
+    expect(response).toEqual(
+      expect.objectContaining({
+        statusCode: 500,
+        body: `${mockEvent.httpMethod} is not being handled!`,
+      })
+    );
   });
 
   describe('handlePost', () => {

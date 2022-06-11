@@ -1,4 +1,4 @@
-import { formatJsonResponse } from '@libs/api-gateway';
+import { formatJsonError, formatJsonResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from 'aws-lambda';
 import axios from 'axios';
@@ -16,6 +16,9 @@ const candles: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (eve
   if (!supportedResolutions.includes(event.queryStringParameters.resolution)) {
     return {
       statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origins': '*',
+      },
       body: `Invalid resolution ${
         event.queryStringParameters.resolution
       }. Valid values are [${supportedResolutions.join(',')}]`,
@@ -41,10 +44,7 @@ const candles: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (eve
     })
     .catch((error) => {
       console.error(error);
-      return {
-        statusCode: 500,
-        body: error.message,
-      };
+      return formatJsonError(JSON.stringify({ message: 'Error', ...error }));
     });
 };
 
