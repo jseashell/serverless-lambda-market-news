@@ -17,8 +17,12 @@ environment:
   CODECOV_TOKEN:
     secure: if5PxDVYlpTsVImmVuYZSPdZQQV1U+bGAbCh/td7xBW8OhxWQMHW4SRklplHuxgl
   SHOULD_DEPLOY: false
+  # # Finnhub sandbox token
+  # FINNHUB_TOKEN:
+  #   secure: ukfs6y11ugjyliZzgcBrr0+t9XYjD1jHYOs8oysdlVE=
+  # Finnhub prod token
   FINNHUB_TOKEN:
-    secure: ukfs6y11ugjyliZzgcBrr0+t9XYjD1jHYOs8oysdlVE=
+    secure: ugqZWXBJIGE13g3Q41ILL1eaAvwC3ccSv9MbYM8Md/Q=
 
 for:
   - branches:
@@ -33,6 +37,9 @@ for:
     environment:
       STAGE: prod
       SHOULD_DEPLOY: true
+      # Finnhub prod token
+      FINNHUB_TOKEN:
+        secure: ugqZWXBJIGE13g3Q41ILL1eaAvwC3ccSv9MbYM8Md/Q=
 
 install:
   - sh: |
