@@ -14,7 +14,7 @@ import { formatJsonError, formatJsonResponse, ValidatedEventApiGatewayProxyEvent
 import { middyfy } from '@libs/lambda';
 import schema from './schema';
 
-const userPreferences: ValidatedEventApiGatewayProxyEvent<typeof schema> = async (event) => {
+const watchlist: ValidatedEventApiGatewayProxyEvent<typeof schema> = async (event) => {
   switch (event.httpMethod) {
     case 'POST':
       return handlePost(event);
@@ -29,13 +29,13 @@ const userPreferences: ValidatedEventApiGatewayProxyEvent<typeof schema> = async
   }
 };
 
-export const main = middyfy(userPreferences);
+export const main = middyfy(watchlist);
 
 async function handlePost(event) {
   console.debug('POST', { type: typeof event.body, body: event.body });
 
   const command = new PutCommand({
-    TableName: process.env.USER_PREFERENCES_TABLE,
+    TableName: process.env.USER_WATCHLIST_TABLE,
     Item: event.body,
   });
 
@@ -46,7 +46,7 @@ async function handlePost(event) {
     .then((output: PutCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
-        data: output.Attributes,
+        data: output.Attributes || {},
       });
     })
     .catch((error) => {
@@ -62,7 +62,7 @@ async function handleGet(event) {
   });
 
   const command = new GetCommand({
-    TableName: process.env.USER_PREFERENCES_TABLE,
+    TableName: process.env.USER_WATCHLIST_TABLE,
     Key: {
       userId: event.queryStringParameters.userId,
     },
@@ -75,7 +75,7 @@ async function handleGet(event) {
     .then((output: GetCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
-        preferences: output.Item || {},
+        data: output.Item || {},
       });
     })
     .catch((error) => {
@@ -85,10 +85,10 @@ async function handleGet(event) {
 }
 
 async function handlePatch(event) {
-  console.debug('POST', { type: typeof event.body, body: event.body });
+  console.debug('PATCH', { type: typeof event.body, body: event.body });
 
   const command = new UpdateCommand({
-    TableName: process.env.USER_PREFERENCES_TABLE,
+    TableName: process.env.USER_WATCHLIST_TABLE,
     Key: {
       userId: event.body.userId,
     },
@@ -103,9 +103,10 @@ async function handlePatch(event) {
   const ddb = DynamoDBDocumentClient.from(dynamodb);
   return ddb
     .send(command)
-    .then((_output: UpdateCommandOutput) => {
+    .then((output: UpdateCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
+        data: output.Attributes || {},
       });
     })
     .catch((error) => {
@@ -115,13 +116,13 @@ async function handlePatch(event) {
 }
 
 async function handleDelete(event) {
-  console.debug('GET', {
+  console.debug('DELETE', {
     type: typeof event.queryStringParameters,
     queryStringParameters: event.queryStringParameters,
   });
 
   const command = new DeleteCommand({
-    TableName: process.env.USER_PREFERENCES_TABLE,
+    TableName: process.env.USER_WATCHLIST_TABLE,
     Key: {
       userId: event.queryStringParameters.userId,
     },
@@ -131,9 +132,10 @@ async function handleDelete(event) {
   const ddb = DynamoDBDocumentClient.from(dynamodb);
   return ddb
     .send(command)
-    .then((_output: DeleteCommandOutput) => {
+    .then((output: DeleteCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
+        data: output.Attributes || {},
       });
     })
     .catch((error) => {

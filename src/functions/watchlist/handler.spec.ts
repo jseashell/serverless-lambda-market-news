@@ -5,7 +5,7 @@ import { main } from './handler';
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 
-describe('userPreferences', () => {
+describe('watchlist', () => {
   beforeEach(() => {
     ddbMock.reset();
     console.debug = jest.fn();

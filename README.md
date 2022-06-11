@@ -40,7 +40,7 @@ npx serverless invoke local -f candles -p src/functions/candless/mocks/get.json
 
 The available mocks are
 
-- [`get.json`](./src/functions/user-preferences/mocks/get.json)
+- [`get.json`](./src/functions/watchlist/mocks/get.json)
 
 To test remote deployments, use `curl` with the `<aws-endpoint>` output from `npx serverless deploy`
 
@@ -53,22 +53,22 @@ curl -X GET -G \
 --location <aws-endpoint>
 ```
 
-### `userPreferences`
+### `watchlist`
 
 This function requires an active DynamoDB instance. You can use mocks to execute CRUD operations via API.
 
-> _Important! Inject the name of the user preferences DynamoDB table via [`.env`](./.env.example)_
+> _Important! Inject the name of the user watchlist DynamoDB table via [`.env`](./.env.example)_
 
 ```sh
-npx serverless invoke local -f userPreferences -p src/functions/user-preferences/mocks/post.json
+npx serverless invoke local -f watchlist -p src/functions/watchlist/mocks/post.json
 ```
 
 The available mocks are
 
-- [`post.json`](./src/functions/user-preferences/mocks/post.json)
-- [`get.json`](./src/functions/user-preferences/mocks/get.json)
-- [`patch.json`](./src/functions/user-preferences/mocks/patch.json)
-- [`delete.json`](./src/functions/user-preferences/mocks/delete.json)
+- [`post.json`](./src/functions/watchlist/mocks/post.json)
+- [`get.json`](./src/functions/watchlist/mocks/get.json)
+- [`patch.json`](./src/functions/watchlist/mocks/patch.json)
+- [`delete.json`](./src/functions/watchlist/mocks/delete.json)
 
 To test remote deployments, use `curl` with the `<aws-endpoint>` output from `npx serverless deploy`
 

@@ -1,4 +1,4 @@
-import { candles, userPreferences } from '@functions';
+import { candles, watchlist } from '@functions';
 import type { AWS } from '@serverless/typescript';
 
 const serverlessConfiguration: AWS = {
@@ -17,7 +17,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      USER_PREFERENCES_TABLE: process.env.USER_PREFERENCES_TABLE,
+      USER_WATCHLIST_TABLE: process.env.USER_WATCHLIST_TABLE,
       FINNHUB_TOKEN: process.env.FINNHUB_TOKEN,
     },
     logs: {
@@ -32,7 +32,7 @@ const serverlessConfiguration: AWS = {
             Action: ['dynamodb:PutItem', 'dynamodb:GetItem', 'dynamodb:UpdateItem', 'dynamodb:DeleteItem'],
             Resource: [
               {
-                'Fn::GetAtt': ['MarketNewsUserPreferencesTable', 'Arn'],
+                'Fn::GetAtt': ['MarketNewsUserWatchlistTable', 'Arn'],
               },
             ],
           },
@@ -41,14 +41,14 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { candles, userPreferences },
+  functions: { candles, watchlist },
   package: { individually: true },
   resources: {
     Resources: {
-      MarketNewsUserPreferencesTable: {
+      MarketNewsUserWatchlistTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
-          TableName: process.env.USER_PREFERENCES_TABLE,
+          TableName: process.env.USER_WATCHLIST_TABLE,
           BillingMode: 'PAY_PER_REQUEST',
           AttributeDefinitions: [
             {

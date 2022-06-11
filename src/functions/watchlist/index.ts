@@ -2,7 +2,7 @@ import { handlerPath } from '@libs/handler-resolver';
 import { AwsFunction } from '@libs/lambda';
 import schema from './schema';
 
-const path = 'preferences';
+const path = 'watchlist';
 const cors = true;
 
 export default {
