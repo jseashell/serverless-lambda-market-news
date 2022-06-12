@@ -21,6 +21,8 @@ environment:
   # https://finnhub.io/docs/api/sandbox
   FINNHUB_TOKEN:
     secure: ukfs6y11ugjyliZzgcBrr0+t9XYjD1jHYOs8oysdlVE=
+  USER_WATCHLIST_TABLE: MarketNewsUserWatchlist-$STAGE
+  
 
 for:
   - branches:
