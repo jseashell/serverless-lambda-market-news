@@ -35,7 +35,7 @@ npm install
 This function has no prerequisites. You can use mocks to get OHLCV data for a given symbol.
 
 ```sh
-npx serverless invoke local -f candles -p src/functions/candless/mocks/get.json
+npx serverless invoke local -f candles -p src/functions/candles/mocks/get.json
 ```
 
 The available mocks are
@@ -53,6 +53,27 @@ curl -X GET -G \
 --location <aws-endpoint>
 ```
 
+### `symbols`
+
+This function has no prerequisites. You can use mocks to get all symbols for a given exchange.
+
+```sh
+npx serverless invoke local -f symbols -p src/functions/symbols/mocks/get.json
+```
+
+The available mocks are
+
+- [`get.json`](./src/functions/symbols/mocks/get.json)
+
+To test remote deployments, use `curl` with the `<aws-endpoint>` output from `npx serverless deploy`
+
+```sh
+curl -X GET -G \
+-d 'exchange=US' \
+--location <aws-endpoint>
+```
+
+> Only supports `US` exchange at this time.
 ### `watchlist`
 
 This function requires an active DynamoDB instance. You can use mocks to execute CRUD operations via API.

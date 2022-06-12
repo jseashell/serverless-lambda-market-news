@@ -2,33 +2,30 @@ import { formatClientError, formatJsonResponse, formatServerError } from '@libs/
 import { middyfy } from '@libs/lambda';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from 'aws-lambda';
 import axios from 'axios';
-import { CandlesQueryParams } from './candles.interface';
+import { SymbolsQueryParams } from './symbols.interface';
 
-export const supportedResolutions = ['1', '5', '10', '15', '30', '60', 'D', 'W', 'M'];
+export const supportedExchanges = ['US'];
 
 /**
- * Handler for Open High/Low Close Volume data for stocks
+ * Handler for querying for all stock symbols in a given exchange. Only supports US exchange at this time.
  *
  * @param event a {@link ValidatedEventApiGatewayProxyEvent}
  * @returns Lambda Proxy response. Status 200 for successes and 500 for errors
  */
 const candles: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {
-  const resolution = event.queryStringParameters.resolution;
+  const exchange = event.queryStringParameters.exchange;
 
-  if (!supportedResolutions.includes(resolution)) {
-    return formatClientError(`Invalid resolution ${resolution}. Valid values are [${supportedResolutions.join(',')}]`);
+  if (!supportedExchanges.includes(exchange)) {
+    return formatClientError(`Invalid exchange ${exchange}. Valid values are [${supportedExchanges.join(',')}]`);
   }
 
-  const params: CandlesQueryParams = {
+  const params: SymbolsQueryParams = {
     token: process.env.FINNHUB_TOKEN,
-    symbol: event.queryStringParameters.symbol,
-    resolution: resolution,
-    from: event.queryStringParameters.from,
-    to: event.queryStringParameters.to,
+    exchange: exchange,
   };
 
   return axios
-    .get('https://finnhub.io/api/v1/stock/candle', {
+    .get('https://finnhub.io/api/v1/stock/symbol', {
       params: params,
     })
     .then((res) => {

@@ -10,7 +10,7 @@ import {
   UpdateCommand,
   UpdateCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
-import { formatJsonError, formatJsonResponse, ValidatedEventApiGatewayProxyEvent } from '@libs/api-gateway';
+import { formatJsonResponse, formatServerError, ValidatedEventApiGatewayProxyEvent } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import schema from './schema';
 
@@ -25,7 +25,7 @@ const watchlist: ValidatedEventApiGatewayProxyEvent<typeof schema> = async (even
     case 'DELETE':
       return handleDelete(event);
     default:
-      return formatJsonError(`${event.httpMethod} is not being handled!`);
+      return formatServerError(`${event.httpMethod} is not being handled!`);
   }
 };
 
@@ -51,7 +51,7 @@ async function handlePost(event) {
     })
     .catch((error) => {
       console.error('PutCommand', error);
-      return formatJsonError(JSON.stringify({ message: 'Error', ...error }));
+      return formatServerError(JSON.stringify({ message: 'Error', ...error }));
     });
 }
 
@@ -80,7 +80,7 @@ async function handleGet(event) {
     })
     .catch((error) => {
       console.error('GetCommand', error);
-      return formatJsonError(JSON.stringify({ message: 'Error', ...error }));
+      return formatServerError(JSON.stringify({ message: 'Error', ...error }));
     });
 }
 
@@ -111,7 +111,7 @@ async function handlePatch(event) {
     })
     .catch((error) => {
       console.error('UpdateCommand', error);
-      return formatJsonError(JSON.stringify({ message: 'Error', ...error }));
+      return formatServerError(JSON.stringify({ message: 'Error', ...error }));
     });
 }
 
@@ -140,6 +140,6 @@ async function handleDelete(event) {
     })
     .catch((error) => {
       console.error('DeleteCommand', error);
-      return formatJsonError(JSON.stringify({ message: 'Error', ...error }));
+      return formatServerError(JSON.stringify({ message: 'Error', ...error }));
     });
 }

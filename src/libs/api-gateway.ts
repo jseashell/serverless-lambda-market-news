@@ -19,9 +19,17 @@ export const formatJsonResponse = (response: Record<string, unknown>) => {
   };
 };
 
-export const formatJsonError = (errorMessage: string) => {
+export const formatServerError = (errorMessage: string) => {
   return {
     statusCode: 500,
+    headers: headers,
+    body: errorMessage,
+  };
+};
+
+export const formatClientError = (errorMessage: string) => {
+  return {
+    statusCode: 400,
     headers: headers,
     body: errorMessage,
   };
