@@ -46,7 +46,7 @@ async function handlePost(event) {
     .then((output: PutCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
-        data: output.Attributes || {},
+        data: output.Attributes || null,
       });
     })
     .catch((error) => {
@@ -75,7 +75,7 @@ async function handleGet(event) {
     .then((output: GetCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
-        data: output.Item || {},
+        data: output.Item || null,
       });
     })
     .catch((error) => {
@@ -106,7 +106,7 @@ async function handlePatch(event) {
     .then((output: UpdateCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
-        data: output.Attributes || {},
+        data: output.Attributes || null,
       });
     })
     .catch((error) => {
@@ -135,7 +135,7 @@ async function handleDelete(event) {
     .then((output: DeleteCommandOutput) => {
       return formatJsonResponse({
         message: 'Success',
-        data: output.Attributes || {},
+        data: output.Attributes || null,
       });
     })
     .catch((error) => {
