@@ -1,4 +1,4 @@
-# Serverless Lambda Market News
+# Serverless Market News API
 
 Proof-of-concept serverless resource API for stock market news and real-time financial data. [Deploy](#deploy) with [AWS Lambda](https://aws.amazon.com/lambda/) and [Serverless Framework](https://serverless.com).
 
