@@ -19,20 +19,14 @@ Proof-of-concept serverless resource API for stock market news and real-time fin
 > Requires Node >=16 (lts/gallium). If you are using [nvm](https://github.com/nvm-sh/nvm), then run `nvm install` from the project directoy
 
 ```sh
-git clone https://github.com/jseashell/serverless-lambda-chat-api.git
-cd serverless-lambda-chat-api
+git clone https://github.com/jseashell/serverless-market-news-api.git
+cd serverless-market-news-api
 npm install
 ```
 
 ## Usage
 
-[Deploy](#deploy) to AWS, then use [wscat](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-wscat.html) to interact with the websocket.
-
-The `<aws-endpoint>` is available in your `serverless deploy` output. Copy and paste it into the command below to use the websocket API from terminal.
-
-```sh
-wscat -c <aws-endpoint>
-```
+[Deploy](#deploy) to AWS, then use a REST client to test endpoints. The root `<aws-endpoint>` is available in your `serverless deploy` output.
 
 > It looks something like this `wss://0a0a0a0a0a.execute-api.us-east-1.amazonaws.com/dev`
 
