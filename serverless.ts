@@ -2,7 +2,7 @@ import userPreferences from '@functions/user-preferences';
 import type { AWS } from '@serverless/typescript';
 
 const serverlessConfiguration: AWS = {
-  service: 'market-news-api',
+  service: 'serverless-market-news-api',
   frameworkVersion: '3',
   plugins: ['serverless-esbuild'],
   provider: {
@@ -29,7 +29,7 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: [
               {
-                'Fn::GetAtt': ['MarketNewsUserPreferencesTable', 'Arn'],
+                'Fn::GetAtt': ['ServerlessMarketNewsApiUserPreferencesTable', 'Arn'],
               },
             ],
           },
@@ -42,7 +42,7 @@ const serverlessConfiguration: AWS = {
   package: { individually: true },
   resources: {
     Resources: {
-      MarketNewsUserPreferencesTable: {
+      ServerlessMarketNewsApiUserPreferencesTable: {
         Type: 'AWS::DynamoDB::Table',
         Properties: {
           BillingMode: 'PAY_PER_REQUEST',
