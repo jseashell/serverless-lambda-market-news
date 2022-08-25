@@ -1,7 +1,7 @@
 {
-  "name": "market-news-api",
+  "name": "serverless-market-news-api",
   "version": "1.0.0",
-  "description": "Serverless aws-nodejs-typescript template",
+  "description": "Serverless resource API for stock market news and real-time financial data",
   "main": "serverless.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
