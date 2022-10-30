@@ -36,7 +36,6 @@
     "prettier": "^2.6.2",
     "serverless": "^3.0.0",
     "serverless-esbuild": "^1.23.3",
-    "snyk": "^1.947.0",
     "ts-jest": "^28.0.4",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.9.0",

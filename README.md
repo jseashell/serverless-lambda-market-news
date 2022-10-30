@@ -2,7 +2,6 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/k6ywbw2rwdfqp9q4?svg=true)](https://ci.appveyor.com/project/jseashell/market-news-api)
 [![codecov](https://codecov.io/gh/jseashell/market-news-api/branch/dev/graph/badge.svg?token=UKLKODOO55)](https://codecov.io/gh/jseashell/market-news-api)
-[![Known Vulnerabilities](https://snyk.io/test/github/jseashell/market-news-api/badge.svg)](https://snyk.io/test/github/jseashell/market-news-api/badge.svg)
 
 Serverless resource API for [Market News](https://github.com/jseashell/market-news-client). Deployed with [AWS Lambda](https://aws.amazon.com/lambda/) and [Serverless Framework](https://serverless.com).
 
