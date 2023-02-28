@@ -12,7 +12,7 @@
     "format": "npx prettier --write ."
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.105.0",
+    "@aws-sdk/client-dynamodb": "^3.266.0",
     "@aws-sdk/lib-dynamodb": "^3.105.0",
     "@middy/core": "^2.5.3",
     "@middy/http-json-body-parser": "^2.5.3",
